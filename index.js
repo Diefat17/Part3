@@ -61,11 +61,25 @@ app.delete('/api/persons/:id', (req, res) => {
 })
 
 app.post('/api/persons', (req, res) => {
-  console.log(req.body)
   const newPerson = {
-    content: req.body.content,
-    important: Boolean(req.body.important) || false,
-    id: Math.floor(Math.random() * 100)
+    id: Math.floor(Math.random() * 100),
+    name: req.body.name,
+    number: req.body.number
+  }
+
+  if(!req.body.name || !req.body.number){
+    const temp = !req.body.name
+      ? 'name'
+      : 'number'
+
+    res.send({error: `${temp} cannot be null`})
+    return 
+  }
+
+  
+  if(persons.some(temp => temp.name === req.body.name)){
+    res.send({ error: 'name must be unique' })
+    return
   }
   persons = persons.concat(newPerson)
   res.send(req.body)
