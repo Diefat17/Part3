@@ -29,12 +29,12 @@ let persons = [
 
 ]
 
-app.get('/', (request, response) => {
-    response.send('<h1>Hello World!</h1>')
+app.get('/', (req, res) => {
+    res.send('<h1>Hello World!</h1>')
 })
   
-app.get('/api/persons', (request, response) => {
-    response.json(persons)
+app.get('/api/persons', (req, res) => {
+    res.json(persons)
 })
 
 app.get('/info', (req, res) => {
@@ -51,6 +51,13 @@ app.get('/api/persons/:id', (req, res) => {
     console.log('x')
     res.status(404).end()
   }
+})
+
+app.delete('/api/persons/:id', (req, res) => {
+  const id = Number(req.params.id)
+  persons = persons.filter(person => person.id !== id)
+  console.log('eliminado')
+  res.status(204).end()
 })
 
 
