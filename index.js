@@ -1,7 +1,9 @@
 const express = require('express')
+const morgan = require('morgan')
 const app = express()
 
 app.use(express.json())
+app.use(morgan('combined'))
 
 
 let persons = [
@@ -27,15 +29,21 @@ let persons = [
       "number": "39-23-6423122"
     }
 
-]
+  ]
+
+
+morgan('tiny')
+morgan(':remote-addr :remote-user :method :url HTTP/:http-version :status :res[content-length] - :response-time ms')
 
 app.get('/', (req, res) => {
-    res.send('<h1>Hello World!</h1>')
+  res.send('<h1>Hello World!</h1>')
 })
-  
+
 app.get('/api/persons', (req, res) => {
-    res.json(persons)
+  res.json(persons)
 })
+
+
 
 app.get('/info', (req, res) => {
   const date = new Date(Date.now())
@@ -51,6 +59,7 @@ app.get('/api/persons/:id', (req, res) => {
     console.log('x')
     res.status(404).end()
   }
+  
 })
 
 app.delete('/api/persons/:id', (req, res) => {
@@ -86,7 +95,7 @@ app.post('/api/persons', (req, res) => {
 })
 
 
-  
+
   const PORT = 3001
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
