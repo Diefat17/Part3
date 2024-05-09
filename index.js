@@ -1,14 +1,13 @@
 const express = require('express')
 //const morgan = require('morgan')
 const app = express()
-const cors = require('cors')
+//const cors = require('cors')
 
-app.use(cors)
+//app.use(cors)
 //try
-app.use(express.json())
+
 //morgan.token('body', function (req, res) {return JSON.stringify(req.body) })
 //app.use(morgan(':method :url :status :response-time ms - :res[content-length] :body'))
-app.use(express.static('dist'))
 
 let persons = [
   [
@@ -35,8 +34,10 @@ let persons = [
 
   ]
 ]
-
-
+app.use(express.static('dist'))
+const cors = require('cors')
+app.use(cors())
+app.use(express.json())
 //try
 
 
@@ -80,5 +81,3 @@ const PORT = process.env.port || 3001
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
-
-
