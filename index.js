@@ -1,7 +1,15 @@
 const express = require('express')
+//const morgan = require('morgan')
 const app = express()
 
+<<<<<<< HEAD
+app.use(express.json())
+//morgan.token('body', function (req, res) {return JSON.stringify(req.body) })
+//app.use(morgan(':method :url :status :response-time ms - :res[content-length] :body'))
+app.use(express.static('dist'))
+=======
 //try
+>>>>>>> main
 
 let persons = [
   [
@@ -25,6 +33,37 @@ let persons = [
       "name": "Mary Poppendieck", 
       "number": "39-23-6423122"
     }
+<<<<<<< HEAD
+
+  ]
+
+
+
+//try
+
+
+app.get('/', (req, res) => {
+  
+  res.send('<h1>Hello World!</h1>')
+})
+
+app.get('/api/persons', (req, res) => {
+  res.json(persons)
+})
+
+
+
+app.get('/info', (req, res) => {
+  const date = new Date(Date.now())
+  res.send(`<p>Phonebook has info for ${persons.length} peopple</p><br> <p>${date}</p>`)
+})
+
+app.get('/api/persons/:id', (req, res) => {
+  const id = Number(req.params.id)
+  const person = persons.find(person => person.id === id)
+  if (person) {
+    res.json(person)
+=======
 ]
 ]
 
@@ -41,10 +80,12 @@ app.get('/api/notes/:id', (request, response) => {
   const note = notes.find(note => note.id === id)
   if (note) {
     response.json(note)
+>>>>>>> main
   } else {
     console.log('x')
     response.status(404).end()
   }
+  
 })
 
 app.delete('/api/notes/:id', (request, response) => {
@@ -59,3 +100,12 @@ app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
 
+<<<<<<< HEAD
+
+
+  const PORT = process.env.PORT || 3001
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`)
+  })
+=======
+>>>>>>> main
