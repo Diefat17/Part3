@@ -1,5 +1,8 @@
 const express = require('express')
 const app = express()
+const cors = require('cors')
+
+app.use(cors)
 
 //try
 
@@ -36,7 +39,7 @@ app.get('/api/persons', (request, response) => {
     response.json(persons)
 })
 
-app.get('/api/notes/:id', (request, response) => {
+app.get('/api/persons/:id', (request, response) => {
   const id = Number(request.params.id)
   const note = notes.find(note => note.id === id)
   if (note) {
@@ -47,14 +50,14 @@ app.get('/api/notes/:id', (request, response) => {
   }
 })
 
-app.delete('/api/notes/:id', (request, response) => {
+app.delete('/api/persons/:id', (request, response) => {
   const id = Number(request.params.id)
   notes = notes.filter(note => note.id !== id)
 
   response.status(204).end()
 })
 
-const PORT = 3001
+const PORT = process.env.port || 3001
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
