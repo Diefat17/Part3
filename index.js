@@ -1,11 +1,25 @@
+require('dotenv').config()
 const express = require('express')
 //const morgan = require('morgan')
 const app = express()
-//const cors = require('cors')
-
+const Person = require('./models/person')
+const mongoose = require('mongoose')
+const cors = require('cors')
 //app.use(cors)
 //try
+const url = process.env.MONGODB_URI
 
+console.log('connecting to', url)
+
+mongoose.connect(url)
+.then(result => {
+  console.log('connected to MongoDB')
+})
+.catch(error => {
+  console.log('error connecting to MongoDB:', error.message)
+})
+
+app.use(cors())
 //morgan.token('body', function (req, res) {return JSON.stringify(req.body) })
 //app.use(morgan(':method :url :status :response-time ms - :res[content-length] :body'))
 
@@ -32,8 +46,7 @@ let persons = [
   }
 ]
 app.use(express.static('dist'))
-const cors = require('cors')
-app.use(cors())
+
 app.use(express.json())
 //try
 
@@ -44,11 +57,25 @@ app.get('/', (req, res) => {
 })
 
 app.get('/api/persons', (req, res) => {
-  res.json(persons)
+  Person.find({}).then(person => {
+    res.json(person)
+  })
 })
 
 app.post('/api/persons', (req, res) => {
-  res.json(req.body)
+  const body = req.body
+  if (body.name === undefined) {
+    return res.status(400).json({ error: 'content missing' })
+  }
+  
+  const person = new Person({
+    name: body.name,
+    number: body.number,
+  })
+
+  person.save().then(savedPerson => {
+    res.json(savedPerson)
+  })
 })
 
 
@@ -58,15 +85,9 @@ app.get('/info', (req, res) => {
 })
 
 app.get('/api/persons/:id', (req, res) => {
-  const id = Number(req.params.id)
-  const person = persons.find(person => person.id === id)
-  if (person) {
-    res.json(person)
-  } else {
-    console.log('x')
-    response.status(404).end()
-  }
-  
+  Person.findById(request.params.id).then(person => {
+    response.json(person)
+  })
 })
 
 app.delete('/api/persons/:id', (request, response) => {
