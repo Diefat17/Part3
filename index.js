@@ -9,6 +9,8 @@ const cors = require('cors')
 //try
 const url = process.env.MONGODB_URI
 
+//done the frontedn
+
 console.log('connecting to', url)
 
 mongoose.connect(url)
