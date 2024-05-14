@@ -66,17 +66,18 @@ app.get('/api/persons', (req, res) => {
 
 app.post('/api/persons', (req, res) => {
   const body = req.body
-  if (body.name === undefined) {
+
+  if (body.content === undefined) {
     return res.status(400).json({ error: 'content missing' })
   }
-  
-  const person = new Person({
-    name: body.name,
-    number: body.number,
+
+  const note = new Note({
+    content: body.content,
+    important: body.important || false,
   })
 
-  person.save().then(savedPerson => {
-    res.json(savedPerson)
+  note.save().then(savedNote => {
+    res.json(savedNote)
   })
 })
 
@@ -92,11 +93,12 @@ app.get('/api/persons/:id', (req, res) => {
   })
 })
 
-app.delete('/api/persons/:id', (request, response) => {
-  const id = Number(request.params.id)
-  persons = persons.filter(note => note.id !== id)
-
-  response.status(204).end()
+app.delete('/api/persons/:id', (req, res, next) => {
+  Person.findByIdAndDelete(req.params.id)
+    .then(result => {
+      res.status(204).end()
+    })
+    .catch(error => next(error))
 })
 
 const PORT = process.env.port || 3001
