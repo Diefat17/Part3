@@ -98,7 +98,10 @@ app.delete('/api/persons/:id', (req, res, next) => {
     .then(result => {
       res.status(204).end()
     })
-    .catch(error => next(error))
+    .catch(error => {
+      console.log(error)
+      res.send(404)
+    })
 })
 
 const PORT = process.env.port || 3001
