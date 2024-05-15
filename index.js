@@ -105,9 +105,11 @@ app.get('/api/persons/:id', (req, res) => {
 })
 
 app.delete('/api/persons/:id', (req, res, next) => {
-  console.log('colaciones')
+  console.log(req.params.id)
+  
   Person.findByIdAndDelete(req.params.id)
-    .then(result => {
+  .then(result => {
+      console.log('colaciones')
       res.status(204).end()
     })
     .catch(error => {
