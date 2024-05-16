@@ -105,7 +105,7 @@ app.get('/api/persons/:id', (req, res) => {
   })
 })
 
-app.delete('/api/persons/:id', (req, res) => {
+app.delete('/api/persons/:id', (req, res, next) => {
   console.log(req.params.id)
   
   Person.findByIdAndDelete(req.params.id)
@@ -113,10 +113,7 @@ app.delete('/api/persons/:id', (req, res) => {
       console.log('colaciones')
       res.status(204).end()
     })
-    .catch(error => {
-      console.log(error)
-      res.send(404)
-    })
+    .catch(error => {next(error)})
 })
 
 const PORT = process.env.port || 3001
