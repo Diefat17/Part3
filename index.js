@@ -71,6 +71,7 @@ app.get('/', (req, res) => {
 
 app.get('/api/persons', (req, res) => {
   Person.find({}).then(person => {
+    console.log(person[0].id)
     res.json(person)
   })
 })
@@ -83,7 +84,6 @@ app.post('/api/persons', (req, res) => {
   }
 
   const person = new Person({
-    id: body.id,
     name: body.name,
     number: body.number,
   })
@@ -105,7 +105,7 @@ app.get('/api/persons/:id', (req, res) => {
   })
 })
 
-app.delete('/api/persons/:id', (req, res, next) => {
+app.delete('/api/persons/:id', (req, res) => {
   console.log(req.params.id)
   
   Person.findByIdAndDelete(req.params.id)
