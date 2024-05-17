@@ -8,7 +8,8 @@
     "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:ui": "rm -rf dist && cd ../Part2 && npm run build && cp -r dist ../Part3",
-    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push"
+    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push",
+    "lint": "eslint ."
   },
   "author": "Diego Solorzano",
   "license": "ISC",
@@ -21,6 +22,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.2.0",
+    "@stylistic/eslint-plugin-js": "^2.1.0",
     "eslint": "^9.2.0",
     "globals": "^15.2.0",
     "nodemon": "^3.1.0"
